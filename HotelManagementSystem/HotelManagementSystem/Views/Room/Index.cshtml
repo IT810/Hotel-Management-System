@@ -20,7 +20,7 @@
                 <div class="container-fluid">
                     <div class="form-group col-md-6">
                         <label>Room Number</label>
-                        @Html.TextBoxFor(x => x.RoomNumber, new { @class = "form-control", @id="textnumber" })
+                        @Html.TextBoxFor(x => x.RoomNumber, new { @class = "form-control", @id = "textnumber" })
                     </div>
                     <div class="form-group col-md-6">
                         <label>Room Price</label>
@@ -57,16 +57,56 @@
         </div>
     </div>
 </div>
+<div style="margin-top: 20px"></div>
+<div id="divLoadRoomDetails">
+
+</div>
+
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.0/css/jquery.dataTables.css">
+
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.0/js/jquery.dataTables.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#myTable').DataTable();
+    });
+</script>
 
 <script src="~/Scripts/jquery-3.4.1.min.js"></script>
 <script type="text/javascript">
     $(document).ready(function () {
+        LoadRoomDetails();
+
         $("#btnSave").click(function () {
             SaveRoomData();
         });
-    })
-    
-    function SaveRoomData(){
+    });
+
+    function DeleteRoom(id) {
+        alert(id);
+    }
+
+    function EditRoom(id) {
+        alert(id);
+    }
+
+    function LoadRoomDetails() {
+        $.ajax({
+            async: true,
+            url: "/Room/GetAllRoom",
+            data: 'GET',
+            dataType: 'HTML',
+            contentType: false,
+            processData: false,
+            success: function (rs) {
+                $("#divLoadRoomDetails").html(rs);
+            },
+            error: function () {
+                alert("Erorr !!!");
+            }
+        })
+    }
+
+    function SaveRoomData() {
         var formData = new FormData;
         formData.append("RoomNumber", $("#textnumber").val());
         formData.append("RoomPrice", $("#textprice").val());
@@ -87,6 +127,7 @@
                 if (rs.data == true) {
                     alert(rs.message);
                     ResetRoomInformation();
+                    LoadRoomDetails();
                 }
             },
             error: function () {

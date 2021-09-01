@@ -55,5 +55,26 @@ namespace HotelManagementSystem.Controllers
 
             return Json(new { message="Successfully !!!", data = true }, JsonRequestBehavior.AllowGet);       
         }
+
+        public ActionResult GetAllRoom()
+        {
+            IEnumerable<RoomDetailsViewModel> listOfRoomDetailsViewModel = (
+                    from objRoom in db.Rooms 
+                    join objBooking in db.BookingStatus on objRoom.BookingStatusID equals objBooking.ID
+                    join objRoomType in db.RoomTypes on objRoom.RoomTypeID equals objRoomType.ID
+                    select new RoomDetailsViewModel()
+                    {
+                        RoomNumber = objRoom.RoomNumber,
+                        RoomDescription = objRoom.RoomDescription,
+                        RoomCapacity = objRoom.RoomCapacity,
+                        RoomPrice = objRoom.RoomPrice,
+                        BookingStatus = objBooking.BookingStatus,
+                        RoomType = objRoomType.RoomType1,
+                        RoomImage = objRoom.RoomImage,
+                        ID = objRoom.ID,
+                    }
+                ).ToList();
+            return PartialView("_RoomDetailsPartial", listOfRoomDetailsViewModel);
+        }
     }
 }

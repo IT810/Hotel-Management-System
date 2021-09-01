@@ -1,0 +1,74 @@
+﻿@model IEnumerable<HotelManagementSystem.ViewModel.RoomDetailsViewModel>
+
+<table style="width: 100%; border: 1px solid #808080; background-color:cornflowerblue" id="myTable" class="table table-striped">
+    <thead>
+        <tr>
+            <th>
+                Action
+            </th>
+            <th>
+                Room Image
+            </th>
+            <th>
+                Room No.
+            </th>
+            <th>
+                Room Price
+            </th>
+            <th>
+                Booking Status
+            </th>
+            <th>
+                Room Type
+            </th>
+            <th>
+                Room Capacity
+            </th>
+            <th>
+                Room Description
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    <span id="btnDelete" class="glyphicon glyphicon-trash" onclick="DeleteRoom(@item.ID)"></span>
+                    <span id="btnEdit" class="glyphicon glyphicon-edit" onclick="EditRoom(@item.ID)"></span>
+                </td>
+                <td>
+                    <img src="@Url.Content("~/RoomImages/"+item.RoomImage)" width="30" height="30" class="img-responsive" />
+                </td>
+                <td>
+                    @item.RoomNumber
+                </td>
+                <td>
+                    @item.RoomPrice
+                </td>
+                <td>
+                    @item.BookingStatus
+                </td>
+                <td>
+                    @item.RoomType
+                </td>
+                <td>
+                    @item.RoomCapacity
+                </td>
+                <td>
+                    @item.RoomDescription
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.0/css/jquery.dataTables.css">
+
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.0/js/jquery.dataTables.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#myTable').DataTable();
+    });
+</script>
