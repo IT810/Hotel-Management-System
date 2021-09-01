@@ -1,0 +1,121 @@
+﻿@model HotelManagementSystem.ViewModel.RoomViewModel
+@{
+    ViewBag.Title = "Room";
+}
+
+<div style="margin-top: 50px">
+    <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#divAddRoom" data-backdrop="static" data-keyboard="false">Add Room</button>
+</div>
+<!--Bootstrap Modal-->
+<div id="divAddRoom" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Room</h4>
+            </div>
+            <!-- Modal body -->
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="form-group col-md-6">
+                        <label>Room Number</label>
+                        @Html.TextBoxFor(x => x.RoomNumber, new { @class = "form-control", @id="textnumber" })
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label>Room Price</label>
+                        @Html.TextBoxFor(x => x.RoomPrice, new { @class = "form-control", @id = "textprice" })
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label>Booking Status</label>
+                        @Html.DropDownListFor(x => x.BookingStatusID, @Model.lobs, new { @class = "form-control", @id = "textstatus" })
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label>Room Type</label>
+                        @Html.DropDownListFor(x => x.RoomTypeID, @Model.lort, new { @class = "form-control", @id = "texttype" })
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label>Room Capacity</label>
+                        @Html.TextBoxFor(x => x.RoomCapacity, new { @class = "form-control", @id = "textcapacity" })
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label>Room Description</label>
+                        @Html.TextBoxFor(x => x.RoomDescription, new { @class = "form-control", @id = "textdesc" })
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label>Room Image</label>
+                        <input id="UploadImage" type="file" class="form-control" title="Load Image" onchange="DisplayImage(this)" />
+                        <img id="imgRoom" src="" height="200" width="200" style="border:solid; margin-top: 5px" />
+                    </div>
+                </div>
+            </div>
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                <button id="btnSave" type="button" class="btn btn-success">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#btnSave").click(function () {
+            SaveRoomData();
+        });
+    })
+    
+    function SaveRoomData(){
+        var formData = new FormData;
+        formData.append("RoomNumber", $("#textnumber").val());
+        formData.append("RoomPrice", $("#textprice").val());
+        formData.append("BookingStatusID", $("#textstatus").val());
+        formData.append("RoomTypeID", $("#texttype").val());
+        formData.append("RoomCapacity", $("#textcapacity").val());
+        formData.append("RoomDescription", $("#textdesc").val());
+        formData.append("Image", $("#UploadImage").get(0).files[0]);
+
+        $.ajax({
+            async: true,
+            url: "/Room/Index",
+            type: 'POST',
+            contentType: false,
+            processData: false,
+            data: formData,
+            success: function (rs) {
+                if (rs.data == true) {
+                    alert(rs.message);
+                    ResetRoomInformation();
+                }
+            },
+            error: function () {
+                alert("Erorr !!!");
+            }
+        })
+    }
+
+    function ResetRoomInformation() {
+        $("#textnumber").val("");
+        $("#textprice").val("");
+        $("#textstatus").val("");
+        $("#texttype").val("");
+        $("#textcapacity").val("");
+        $("#textdesc").val("");
+        $("#UploadImage").val("");
+        $("#imgRoom").attr("src", "");
+        $("#textnumber").focus();
+    }
+
+
+    function DisplayImage(e) {
+        if (e.files && e.files[0]) {
+            var fileReader = new FileReader;
+            fileReader.onload = function (result) {
+                $("#imgRoom").attr("src", result.target.result);
+            }
+            fileReader.readAsDataURL(e.files[0]);
+        }
+    }
+
+</script>
