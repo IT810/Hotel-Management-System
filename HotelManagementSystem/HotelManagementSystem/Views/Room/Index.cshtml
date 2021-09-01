@@ -45,7 +45,7 @@
                     <div class="form-group col-md-6">
                         <label>Room Image</label>
                         <input id="UploadImage" type="file" class="form-control" title="Load Image" onchange="DisplayImage(this)" />
-                        <img id="imgRoom" src="" height="200" width="200" style="border:solid; margin-top: 5px" />
+                        <img id="imgRoom" src="~/Images/no_image.jpg" height="200" width="200" style="border:solid; margin-top: 5px" />
                     </div>
                 </div>
             </div>
@@ -103,7 +103,7 @@
         $("#textcapacity").val("");
         $("#textdesc").val("");
         $("#UploadImage").val("");
-        $("#imgRoom").attr("src", "");
+        $("#imgRoom").attr("src", "/Images/no_image.jpg");
         $("#textnumber").focus();
     }
 

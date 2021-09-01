@@ -180,6 +180,7 @@
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="Images\hotel.jpg" />
+    <Content Include="Images\no_image.jpg" />
     <Content Include="Models\ModelDB.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>ModelDB.Context.cs</LastGenOutput>
