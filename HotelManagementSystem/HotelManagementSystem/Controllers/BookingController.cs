@@ -3,15 +3,29 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using HotelManagementSystem.Models;
+using HotelManagementSystem.ViewModel;
 
 namespace HotelManagementSystem.Controllers
 {
     public class BookingController : Controller
     {
+        HotelDBEntities db = new HotelDBEntities();
         // GET: Booking
         public ActionResult Index()
         {
-            return View();
+
+            BookingViewModel bookingViewModel = new BookingViewModel();
+            bookingViewModel.lors = (
+                    from objRoom in db.Rooms
+                    where objRoom.BookingStatusID == 2 && objRoom.IsActive == true
+                    select new SelectListItem()
+                    {
+                        Text = objRoom.RoomNumber,
+                        Value = objRoom.ID.ToString()
+                    }
+                ).ToList();
+            return View(bookingViewModel);
         }
 
         // GET: Booking/Details/5

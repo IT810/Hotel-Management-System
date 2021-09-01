@@ -4,7 +4,9 @@
 }
 
 <div style="margin-top: 50px">
-    <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#divAddRoom" data-backdrop="static" data-keyboard="false">Add Room</button>
+    <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#divAddRoom" data-backdrop="static" data-keyboard="false" id="btnAdd">
+        <span class="glyphicon glyphicon-plus"></span> Add Room
+    </button>
 </div>
 <!--Bootstrap Modal-->
 <div id="divAddRoom" class="modal fade" role="dialog">
@@ -17,37 +19,41 @@
             </div>
             <!-- Modal body -->
             <div class="modal-body">
-                <div class="container-fluid">
-                    <div class="form-group col-md-6">
-                        <label>Room Number</label>
-                        @Html.TextBoxFor(x => x.RoomNumber, new { @class = "form-control", @id = "textnumber" })
+                <form id="formroom">
+                    <div class="row">
+                        @Html.HiddenFor(x => x.ID, new { @id = "textID" })
+                        <div class="form-group col-md-6">
+                            <label>Room Number</label> @Html.ValidationMessageFor(x => x.RoomNumber, null, new { @class = "text-danger" })
+                            @Html.TextBoxFor(x => x.RoomNumber, new { @class = "form-control", @id = "textnumber", placeholder = "Enter number" })
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label>Room Price</label> @Html.ValidationMessageFor(x => x.RoomPrice, null, new { @class = "text-danger" })
+                            @Html.TextBoxFor(x => x.RoomPrice, new { @class = "form-control", @id = "textprice", placeholder = "Enter price" })
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label>Booking Status</label>
+                            @Html.DropDownListFor(x => x.BookingStatusID, @Model.lobs, new { @class = "form-control", @id = "textstatus" })
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label>Room Type</label>
+                            @Html.DropDownListFor(x => x.RoomTypeID, @Model.lort, new { @class = "form-control", @id = "texttype" })
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label>Room Capacity</label> @Html.ValidationMessageFor(x => x.RoomCapacity, null, new { @class = "text-danger" })
+                            @Html.TextBoxFor(x => x.RoomCapacity, new { @class = "form-control", @id = "textcapacity", placeholder = "Enter capacity" })
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label>Room Description</label> @Html.ValidationMessageFor(x => x.RoomDescription, null, new { @class = "text-danger" })
+                            @Html.TextBoxFor(x => x.RoomDescription, new { @class = "form-control", @id = "textdesc", placeholder = "Enter description" })
+                        </div>
+                        <div class="form-group col-md-12">
+                            <label>Room Image</label>
+                            <input id="UploadImage" type="file" class="form-control form-control-static" title="Load Image" onchange="DisplayImage(this)" />
+                            <img id="imgRoom" src="~/Images/no_image.jpg" style="border:solid; margin-top: 5px; width: 100%; height: 250px" />
+                        </div>
                     </div>
-                    <div class="form-group col-md-6">
-                        <label>Room Price</label>
-                        @Html.TextBoxFor(x => x.RoomPrice, new { @class = "form-control", @id = "textprice" })
-                    </div>
-                    <div class="form-group col-md-6">
-                        <label>Booking Status</label>
-                        @Html.DropDownListFor(x => x.BookingStatusID, @Model.lobs, new { @class = "form-control", @id = "textstatus" })
-                    </div>
-                    <div class="form-group col-md-6">
-                        <label>Room Type</label>
-                        @Html.DropDownListFor(x => x.RoomTypeID, @Model.lort, new { @class = "form-control", @id = "texttype" })
-                    </div>
-                    <div class="form-group col-md-6">
-                        <label>Room Capacity</label>
-                        @Html.TextBoxFor(x => x.RoomCapacity, new { @class = "form-control", @id = "textcapacity" })
-                    </div>
-                    <div class="form-group col-md-6">
-                        <label>Room Description</label>
-                        @Html.TextBoxFor(x => x.RoomDescription, new { @class = "form-control", @id = "textdesc" })
-                    </div>
-                    <div class="form-group col-md-6">
-                        <label>Room Image</label>
-                        <input id="UploadImage" type="file" class="form-control" title="Load Image" onchange="DisplayImage(this)" />
-                        <img id="imgRoom" src="~/Images/no_image.jpg" height="200" width="200" style="border:solid; margin-top: 5px" />
-                    </div>
-                </div>
+
+                </form>
             </div>
             <!-- Modal footer -->
             <div class="modal-footer">
@@ -62,101 +68,150 @@
 
 </div>
 
-<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.0/css/jquery.dataTables.css">
+@section scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+            LoadRoomDetails();
 
-<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.0/js/jquery.dataTables.js"></script>
-<script>
-    $(document).ready(function () {
-        $('#myTable').DataTable();
-    });
-</script>
+            $("#btnAdd").click(function () {
+                ResetRoomInformation();
+            });
 
-<script src="~/Scripts/jquery-3.4.1.min.js"></script>
-<script type="text/javascript">
-    $(document).ready(function () {
-        LoadRoomDetails();
-
-        $("#btnSave").click(function () {
-            SaveRoomData();
-        });
-    });
-
-    function DeleteRoom(id) {
-        alert(id);
-    }
-
-    function EditRoom(id) {
-        alert(id);
-    }
-
-    function LoadRoomDetails() {
-        $.ajax({
-            async: true,
-            url: "/Room/GetAllRoom",
-            data: 'GET',
-            dataType: 'HTML',
-            contentType: false,
-            processData: false,
-            success: function (rs) {
-                $("#divLoadRoomDetails").html(rs);
-            },
-            error: function () {
-                alert("Erorr !!!");
-            }
-        })
-    }
-
-    function SaveRoomData() {
-        var formData = new FormData;
-        formData.append("RoomNumber", $("#textnumber").val());
-        formData.append("RoomPrice", $("#textprice").val());
-        formData.append("BookingStatusID", $("#textstatus").val());
-        formData.append("RoomTypeID", $("#texttype").val());
-        formData.append("RoomCapacity", $("#textcapacity").val());
-        formData.append("RoomDescription", $("#textdesc").val());
-        formData.append("Image", $("#UploadImage").get(0).files[0]);
-
-        $.ajax({
-            async: true,
-            url: "/Room/Index",
-            type: 'POST',
-            contentType: false,
-            processData: false,
-            data: formData,
-            success: function (rs) {
-                if (rs.data == true) {
-                    alert(rs.message);
-                    ResetRoomInformation();
-                    LoadRoomDetails();
+            $("#btnSave").click(function () {
+                if ($("#formroom").valid()) {
+                    SaveRoomData();
                 }
-            },
-            error: function () {
-                alert("Erorr !!!");
+                else {
+                    return;
+                }
+            });
+        });
+
+        function DeleteRoom(roomId) {
+            var d = confirm("Are you sure want delete it ?")
+            if (d === false) {
+                return false;
             }
-        })
-    }
+            else {
+                $.ajax({
+                    async: true,
+                    type: 'GET',
+                    dataType: 'JSON',
+                    contentType: 'application/json; charset=utf-8',
+                    data: { id: roomId },
+                    url: "/Room/DeleteRoomDetails",
+                    success: function (rs) {
+                        if (rs.data == true) {
+                            alert(rs.message);
+                            LoadRoomDetails();
+                        }
+                    },
+                    error: function () {
+                        alert("Erorr !!!");
+                    }
+                });
 
-    function ResetRoomInformation() {
-        $("#textnumber").val("");
-        $("#textprice").val("");
-        $("#textstatus").val("");
-        $("#texttype").val("");
-        $("#textcapacity").val("");
-        $("#textdesc").val("");
-        $("#UploadImage").val("");
-        $("#imgRoom").attr("src", "/Images/no_image.jpg");
-        $("#textnumber").focus();
-    }
-
-
-    function DisplayImage(e) {
-        if (e.files && e.files[0]) {
-            var fileReader = new FileReader;
-            fileReader.onload = function (result) {
-                $("#imgRoom").attr("src", result.target.result);
             }
-            fileReader.readAsDataURL(e.files[0]);
         }
-    }
 
-</script>
+        function EditRoom(roomId) {
+            $.ajax({
+                async: true,
+                type: 'GET',
+                dataType: 'JSON',
+                contentType: 'application/json; charset=utf-8',
+                data: { id: roomId },
+                url: "/Room/EditRoomDetails",
+                success: function (rs) {
+                    $("#textID").val(rs.ID);
+                    $("#textnumber").val(rs.RoomNumber);
+                    $("#textprice").val(rs.RoomPrice);
+                    $("#textstatus").val(rs.BookingStatusID);
+                    $("#texttype").val(rs.RoomTypeID);
+                    $("#textcapacity").val(rs.RoomCapacity);
+                    $("#textdesc").val(rs.RoomDescription);
+                    $("#imgRoom").attr("src", "/RoomImages/" + rs.RoomImage);
+                    $("#btnSave").text("Update");
+                    $("#divAddRoom").modal({ show: true });
+                },
+                error: function () {
+                    alert("Erorr !!!");
+                }
+            });
+        }
+
+        function LoadRoomDetails() {
+            $.ajax({
+                async: true,
+                url: "/Room/GetAllRoom",
+                data: 'GET',
+                dataType: 'HTML',
+                contentType: false,
+                processData: false,
+                success: function (rs) {
+                    $("#divLoadRoomDetails").html(rs);
+                },
+                error: function () {
+                    alert("Erorr !!!");
+                }
+            });
+        }
+
+        function SaveRoomData() {
+            var formData = new FormData;
+            formData.append("ID", $("#textID").val());
+            formData.append("RoomNumber", $("#textnumber").val());
+            formData.append("RoomPrice", $("#textprice").val());
+            formData.append("BookingStatusID", $("#textstatus").val());
+            formData.append("RoomTypeID", $("#texttype").val());
+            formData.append("RoomCapacity", $("#textcapacity").val());
+            formData.append("RoomDescription", $("#textdesc").val());
+            formData.append("Image", $("#UploadImage").get(0).files[0]);
+
+            $.ajax({
+                async: true,
+                url: "/Room/Index",
+                type: 'POST',
+                contentType: false,
+                processData: false,
+                data: formData,
+                success: function (rs) {
+                    if (rs.data == true) {
+                        alert(rs.message);
+                        $('#divAddRoom').modal('hide');
+                        LoadRoomDetails();
+                    }
+                },
+                error: function () {
+                    alert("Erorr !!!");
+                }
+            });
+        }
+
+        function ResetRoomInformation() {
+            $("#textID").val(0);
+            $("#textnumber").val("");
+            $("#textprice").val("");
+            $("#textstatus").val(1);
+            $("#texttype").val(1);
+            $("#textcapacity").val("");
+            $("#textdesc").val("");
+            $("#UploadImage").val("");
+            $("#imgRoom").attr("src", "/Images/no_image.jpg");
+            $("#textnumber").focus();
+            $("#btnSave").text("Save");
+        }
+
+
+        function DisplayImage(e) {
+            if (e.files && e.files[0]) {
+                var fileReader = new FileReader;
+                fileReader.onload = function (result) {
+                    $("#imgRoom").attr("src", result.target.result);
+                }
+                fileReader.readAsDataURL(e.files[0]);
+            }
+        }
+
+    </script>
+}

@@ -76,8 +76,8 @@ C:\Users\ADMIN\source\repos\Hotel-Management-System\HotelManagementSystem\HotelM
 C:\Users\ADMIN\source\repos\Hotel-Management-System\HotelManagementSystem\HotelManagementSystem\bin\Newtonsoft.Json.xml
 C:\Users\ADMIN\source\repos\Hotel-Management-System\HotelManagementSystem\HotelManagementSystem\bin\Antlr3.Runtime.pdb
 C:\Users\ADMIN\source\repos\Hotel-Management-System\HotelManagementSystem\HotelManagementSystem\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
-C:\Users\ADMIN\source\repos\Hotel-Management-System\HotelManagementSystem\HotelManagementSystem\obj\Debug\HotelManagementSystem.csprojAssemblyReference.cache
 C:\Users\ADMIN\source\repos\Hotel-Management-System\HotelManagementSystem\HotelManagementSystem\obj\Debug\HotelManagementSystem.csproj.CoreCompileInputs.cache
 C:\Users\ADMIN\source\repos\Hotel-Management-System\HotelManagementSystem\HotelManagementSystem\obj\Debug\HotelManagementSystem.csproj.CopyComplete
 C:\Users\ADMIN\source\repos\Hotel-Management-System\HotelManagementSystem\HotelManagementSystem\obj\Debug\HotelManagementSystem.dll
 C:\Users\ADMIN\source\repos\Hotel-Management-System\HotelManagementSystem\HotelManagementSystem\obj\Debug\HotelManagementSystem.pdb
+C:\Users\ADMIN\source\repos\Hotel-Management-System\HotelManagementSystem\HotelManagementSystem\obj\Debug\HotelManagementSystem.csprojAssemblyReference.cache

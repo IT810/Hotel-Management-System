@@ -1,30 +1,30 @@
 ﻿@model IEnumerable<HotelManagementSystem.ViewModel.RoomDetailsViewModel>
 
-<table style="width: 100%; border: 1px solid #808080; background-color:cornflowerblue" id="myTable" class="table table-striped">
-    <thead>
+<table style="width: 100%; border: 1px solid #808080;" id="myTable" class="table table-striped">
+    <thead style="background-color: cornflowerblue">
         <tr>
-            <th>
+            <th class="text-center">
                 Action
             </th>
-            <th>
+            <th class="text-center">
                 Room Image
             </th>
-            <th>
+            <th class="text-center">
                 Room No.
             </th>
-            <th>
+            <th class="text-center">
                 Room Price
             </th>
-            <th>
+            <th class="text-center">
                 Booking Status
             </th>
-            <th>
+            <th class="text-center">
                 Room Type
             </th>
-            <th>
+            <th class="text-center">
                 Room Capacity
             </th>
-            <th>
+            <th class="text-center">
                 Room Description
             </th>
         </tr>
@@ -33,29 +33,33 @@
         @foreach (var item in Model)
         {
             <tr>
-                <td>
-                    <span id="btnDelete" class="glyphicon glyphicon-trash" onclick="DeleteRoom(@item.ID)"></span>
-                    <span id="btnEdit" class="glyphicon glyphicon-edit" onclick="EditRoom(@item.ID)"></span>
+                <td class="text-center">
+                    <button id="btnDelete" class="btn btn-danger" onclick="DeleteRoom(@item.ID)">
+                        <span class="glyphicon glyphicon-trash"></span>
+                    </button>
+                    <button id="btnEdit" class="btn btn-success" onclick="EditRoom(@item.ID)">
+                        <span class="glyphicon glyphicon-edit"></span>
+                    </button>
                 </td>
-                <td>
-                    <img src="@Url.Content("~/RoomImages/"+item.RoomImage)" width="30" height="30" class="img-responsive" />
+                <td class="text-center" style="margin:auto">
+                    <img src="@Url.Content("~/RoomImages/"+item.RoomImage)" width="200" height="50" class="img-responsive" />
                 </td>
-                <td>
+                <td class="text-center">
                     @item.RoomNumber
                 </td>
-                <td>
+                <td class="text-center">
                     @item.RoomPrice
                 </td>
-                <td>
+                <td class="text-center">
                     @item.BookingStatus
                 </td>
-                <td>
+                <td class="text-center">
                     @item.RoomType
                 </td>
-                <td>
+                <td class="text-center">
                     @item.RoomCapacity
                 </td>
-                <td>
+                <td class="text-center">
                     @item.RoomDescription
                 </td>
             </tr>
@@ -63,11 +67,9 @@
     </tbody>
 </table>
 
-
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.0/css/jquery.dataTables.css">
-
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.0/js/jquery.dataTables.js"></script>
-<script>
+<script type="text/javascript">
     $(document).ready(function () {
         $('#myTable').DataTable();
     });

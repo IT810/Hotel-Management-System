@@ -3,9 +3,11 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="~/Images/hotel-clipart.png" type="image/gif" sizes="16x16">
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap-theme.css" rel="stylesheet" />
+    <link href="~/Content/Site.css" rel="stylesheet" />
     <title>@ViewBag.Title - Hotel Management</title>
-    @Styles.Render("~/Content/css")
-    @Scripts.Render("~/bundles/modernizr")
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
@@ -30,16 +32,16 @@
             </div>
         </div>
     </div>
-    <div class="container body-content">
+    <div class="container">
         @RenderBody()
-        <hr />
-        <footer class="text-center">
-            <p>&copy; @DateTime.Now.Year - Hotel Management</p>
-        </footer>
     </div>
-
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
+    <footer class="text-center bg-info" style="margin-top: 20px;">
+        <p style="padding: 20px; margin:0; font-weight:bold">&copy; @DateTime.Now.Year - Hotel Management</p>
+    </footer>
+    <script src="~/Scripts/jquery-3.4.1.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
     @RenderSection("scripts", required: false)
 </body>
 </html>
