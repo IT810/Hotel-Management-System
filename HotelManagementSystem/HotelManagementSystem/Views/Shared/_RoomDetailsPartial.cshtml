@@ -42,22 +42,22 @@
                     </button>
                 </td>
                 <td class="text-center" style="margin:auto">
-                    <img src="@Url.Content("~/RoomImages/"+item.RoomImage)" width="200" height="50" class="img-responsive" />
+                    <img src="@Url.Content("~/RoomImages/"+item.RoomImage)" width="200" height="50" class="img-responsive" style="border: 1px solid black" />
                 </td>
                 <td class="text-center">
-                    @item.RoomNumber
+                    Room @item.RoomNumber
                 </td>
                 <td class="text-center">
-                    @item.RoomPrice
+                    @item.RoomPrice.ToString("#,##0.00") $
                 </td>
                 <td class="text-center">
-                    @item.BookingStatus
+                    @item.BookingStatus Status
                 </td>
                 <td class="text-center">
-                    @item.RoomType
+                    @item.RoomType Type
                 </td>
                 <td class="text-center">
-                    @item.RoomCapacity
+                    @item.RoomCapacity Persons
                 </td>
                 <td class="text-center">
                     @item.RoomDescription
@@ -67,8 +67,6 @@
     </tbody>
 </table>
 
-<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.0/css/jquery.dataTables.css">
-<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.0/js/jquery.dataTables.js"></script>
 <script type="text/javascript">
     $(document).ready(function () {
         $('#myTable').DataTable();

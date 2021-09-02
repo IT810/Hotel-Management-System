@@ -15,10 +15,12 @@ namespace HotelManagementSystem.ViewModel
         public string CustomerAddress { get; set; }
         [Required(ErrorMessage = "Is required !!!")]
         [DataType(DataType.Date)]
-        public System.DateTime BookingFrom { get; set; }
+        [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
+        public DateTime BookingFrom { get; set; }
         [Required(ErrorMessage = "Is required !!!")]
         [DataType(DataType.Date)]
-        public System.DateTime BookingTo { get; set; }
+        [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
+        public DateTime BookingTo { get; set; }
         [Required(ErrorMessage = "Is required !!!")]
         public int AssignRoomID { get; set; }
         [Required(ErrorMessage = "Is required !!!")]

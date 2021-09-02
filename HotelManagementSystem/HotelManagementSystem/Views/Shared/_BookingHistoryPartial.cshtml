@@ -1,0 +1,89 @@
+﻿@model IEnumerable<HotelManagementSystem.ViewModel.RoomBookingViewModel>
+
+<table style="width: 100%; border: 1px solid #808080;" id="myTable" class="table table-striped">
+    <thead style="background-color: cornflowerblue">
+        <tr>
+            <th class="text-center">
+                Action
+            </th>
+            <th class="text-center">
+                Customer Name
+            </th>
+            <th class="text-center">
+                Customer Phone
+            </th>
+            <th class="text-center">
+                Customer Address
+            </th>
+            <th class="text-center">
+                From
+            </th>
+            <th class="text-center">
+                To
+            </th>
+            <th class="text-center">
+                Number of days
+            </th>
+            <th class="text-center">
+                Room
+            </th>
+            <th class="text-center">
+                Price
+            </th>
+            <th class="text-center">
+                Number of members
+            </th>
+            <th class="text-center">
+                Total Amount
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td class="text-center">
+                    <button id="btnDelete" class="btn btn-danger" onclick="DeleteRoomBooking(@item.ID)">
+                        <span class="glyphicon glyphicon-trash"></span>
+                    </button>
+                </td>
+                <td class="text-center">
+                    @item.CustomerName
+                </td>
+                <td class="text-center">
+                    @item.CustomerPhone
+                </td>
+                <td class="text-center">
+                    @item.CustomerAddress
+                </td>
+                <td class="text-center">             
+                    @Convert.ToDateTime(item.BookingFrom).ToString("dd-MMM-yyyy")
+                </td>
+                <td class="text-center">
+                    @Convert.ToDateTime(item.BookingTo).ToString("dd-MMM-yyyy")
+                </td>
+                <td class="text-center">
+                    @item.NoOfDays
+                </td>
+                <td class="text-center">
+                    @item.AssignRoom
+                </td>
+                <td class="text-center">
+                    @item.RoomPrice.ToString("#,##0.00") $
+                </td>
+                <td class="text-center">
+                    @item.NoOfMembers
+                </td>
+                <td class="text-center">
+                    @item.TotalAmount.ToString("#,##0.00") $
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#myTable').DataTable();
+    });
+</script>

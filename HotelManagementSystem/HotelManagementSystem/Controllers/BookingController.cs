@@ -25,79 +25,67 @@ namespace HotelManagementSystem.Controllers
                         Value = objRoom.ID.ToString()
                     }
                 ).ToList();
+            bookingViewModel.BookingFrom = DateTime.Now;
+            bookingViewModel.BookingTo = DateTime.Now.AddDays(1);
             return View(bookingViewModel);
         }
 
-        // GET: Booking/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
-
-        // GET: Booking/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: Booking/Create
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public ActionResult Index(BookingViewModel bookingViewModel)
         {
-            try
-            {
-                // TODO: Add insert logic here
+            int nod = Convert.ToInt32((bookingViewModel.BookingTo - bookingViewModel.BookingFrom).TotalDays);
+            Room room = db.Rooms.FirstOrDefault(x => x.ID == bookingViewModel.AssignRoomID);
+            decimal roomprice = room.RoomPrice;
+            decimal totalprice = roomprice * nod;
 
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
+            RoomBooking roomBooking = new RoomBooking();
+            roomBooking.CustomerName = bookingViewModel.CustomerName;
+            roomBooking.CustomerPhone = bookingViewModel.CustomerPhone;
+            roomBooking.CustomerAddress = bookingViewModel.CustomerAddress;
+            roomBooking.NoOfMembers = bookingViewModel.NoOfMembers;
+            roomBooking.BookingFrom = bookingViewModel.BookingFrom;
+            roomBooking.BookingTo = bookingViewModel.BookingTo;
+            roomBooking.AssignRoomID = bookingViewModel.AssignRoomID;
+            roomBooking.TotalAmount = totalprice;
+            db.RoomBookings.Add(roomBooking);
+            db.SaveChanges();
+
+            return Json(new { message = "successfully !!!", data = true }, JsonRequestBehavior.AllowGet);
         }
 
-        // GET: Booking/Edit/5
-        public ActionResult Edit(int id)
+        [HttpGet]
+        public PartialViewResult GetAllRoomBooking()
         {
-            return View();
+            List<RoomBookingViewModel> listOfRoomBooking = (
+                    from objRoomBooking in db.RoomBookings
+                    join objRoom in db.Rooms on objRoomBooking.AssignRoomID equals objRoom.ID
+                    orderby objRoomBooking.ID descending
+                    select new RoomBookingViewModel()
+                    {
+                        CustomerName = objRoomBooking.CustomerName,
+                        CustomerAddress = objRoomBooking.CustomerAddress,
+                        CustomerPhone = objRoomBooking.CustomerPhone,
+                        BookingFrom = objRoomBooking.BookingFrom,
+                        BookingTo = objRoomBooking.BookingTo,
+                        AssignRoom = objRoom.RoomNumber,
+                        TotalAmount = objRoomBooking.TotalAmount,
+                        NoOfMembers = objRoomBooking.NoOfMembers,
+                        NoOfDays = System.Data.Entity.DbFunctions.DiffDays(objRoomBooking.BookingFrom, objRoomBooking.BookingTo).Value,
+                        ID = objRoomBooking.ID,
+                        RoomPrice = objRoom.RoomPrice,
+                    }
+                ).ToList();
+            return PartialView("_BookingHistoryPartial", listOfRoomBooking);
         }
 
-        // POST: Booking/Edit/5
-        [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        [HttpGet]
+        public ActionResult DeleteRoomBookingDetails(int id)
         {
-            try
-            {
-                // TODO: Add update logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
+            var result = db.RoomBookings.FirstOrDefault(x => x.ID == id);
+            db.RoomBookings.Remove(result);
+            db.SaveChanges();
+            return Json(new { message = "Deleted Successfully !!!", data = true }, JsonRequestBehavior.AllowGet);
         }
 
-        // GET: Booking/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: Booking/Delete/5
-        [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
     }
 }
