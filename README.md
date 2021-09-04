@@ -1,6 +1,6 @@
 # Hotel-Management-System
 - Simple Hotel Management System with ASP.NET MVC 5 & Sql Server.
-- Xây dựng một hệ thống quản lý khách sạn đơn giản để tìm hiểu về asp.net mvc. giúp làm quen với asp.net khi mới bắt đầu tìm hiểu.
+- Xây dựng một hệ thống quản lý khách sạn đơn giản để tìm hiểu về asp.net mvc, giúp làm quen với asp.net khi mới bắt đầu tìm hiểu.
 
 Demo:
 
